@@ -34,3 +34,22 @@ b. Ajuste los nombres de las columnas para que estén en español.
   rename (ID = show_id, Tipo = type, Título= title, Director = director, País = country, Fecha_agregada = date_added, Anyo_realización = release_year, Valoración = rating, Duración = duration, Incluido_en = listed_in)
 ```
 
+c. Elimine filas duplicadas. 
+
+**Para determinar si hay filas duplicadas
+```{r}
+filas_duplicadas <- datos_netflix |> 
+  janitor::get_dupes()
+```
+
+**Lista de las filas con duplicados
+```{r}
+filas_distintas_duplicadas <- filas_duplicadas |> 
+  distinct()
+```
+
+**Eliminar las filas duplicadas 
+```{r}
+datos_netflix_limpio <- datos_netflix |> 
+  distinct()
+```
