@@ -59,3 +59,10 @@ d. Elimine filas y columnas vacías.
 datos_netflix_sin_vacios <- datos_netflix_limpio |> 
   remove_empty(which = c("rows", "cols"))
 ```
+
+e. Elimine la variable correspondiente al año de lanzamiento (release_year.) 
+
+```{r}
+datos_netflix_sin_anyo_realización<-datos_netflix_sin_vacios |> 
+  select(-Anyo_realización)
+```
