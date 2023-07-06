@@ -27,15 +27,15 @@ library(lubridate) #manejo de fechas
 info_netflix <- read_csv2("https://raw.githubusercontent.com/isa229/programacion_analisis_datos_ii/main/netflix_info.csv")
 ```
 
-b. Ajuste los nombres de las columnas para que estén en español.
 
+b. Ajuste los nombres de las columnas para que estén en español.
 ```{r}
  datos_netflix<-info_netflix |> 
   rename (ID = show_id, Tipo = type, Título= title, Director = director, País = country, Fecha_agregada = date_added, Anyo_realización = release_year, Valoración = rating, Duración = duration, Incluido_en = listed_in)
 ```
 
-c. Elimine filas duplicadas. 
 
+c. Elimine filas duplicadas. 
 **Para determinar si hay filas duplicadas
 ```{r}
 filas_duplicadas <- datos_netflix |> 
@@ -54,15 +54,30 @@ datos_netflix_limpio <- datos_netflix |>
   distinct()
 ```
 
+
 d. Elimine filas y columnas vacías. 
 ```{r}
 datos_netflix_sin_vacios <- datos_netflix_limpio |> 
   remove_empty(which = c("rows", "cols"))
 ```
 
-e. Elimine la variable correspondiente al año de lanzamiento (release_year.) 
 
+e. Elimine la variable correspondiente al año de lanzamiento (release_year.)
 ```{r}
 datos_netflix_sin_anyo_realización<-datos_netflix_sin_vacios |> 
   select(-Anyo_realización)
+```
+
+
+f. Haga una inspección de las variables type y country para determinar si hay observaciones mal escritas o escritas de diferentes maneras. Si es ahí, haga la limpieza para poder homogenizar esos datos. 
+```{r}
+datos_netflix_homogenizados<- datos_netflix_sin_anyo_realización|>
+  mutate(across(c(Tipo), function(x) ifelse(x == "movie", "Movie", x))) |>
+  mutate(across(c(Tipo), function(x) ifelse(x == "tv show", "TV Show", x))) |>
+  mutate(across(c(Tipo), function(x) ifelse(x == "Movi", "Movie", x))) |> 
+  mutate(across(c(Tipo), function(x) ifelse(x == "TV SHOW", "TV Show", x))) |> 
+  mutate(País = ifelse(País == "united states", "United States", País)) |>
+  mutate(País = ifelse(País== "india", "India", País)) |>
+  mutate(País = ifelse(País == "pakistan", "Pakistan", País)) |> 
+  mutate(País = ifelse(País == "canada", "Canada", País))
 ```
