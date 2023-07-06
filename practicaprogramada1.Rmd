@@ -81,3 +81,12 @@ datos_netflix_homogenizados<- datos_netflix_sin_anyo_realización|>
   mutate(País = ifelse(País == "pakistan", "Pakistan", País)) |> 
   mutate(País = ifelse(País == "canada", "Canada", País))
 ```
+
+
+g. Para todas las columnas de tipo carácter, en donde haya NA, coloque “Sin información”.
+```{r}
+datos_netflix_sin_NA <- datos_netflix_homogenizados |> 
+  mutate_at(vars(ID, Tipo, Título, Director, País, Valoración, Duración), ~ifelse(is.na(.), "Sin información", .)) 
+```
+
+
