@@ -53,3 +53,9 @@ filas_distintas_duplicadas <- filas_duplicadas |>
 datos_netflix_limpio <- datos_netflix |> 
   distinct()
 ```
+
+d. Elimine filas y columnas vacías. 
+```{r}
+datos_netflix_sin_vacios <- datos_netflix_limpio |> 
+  remove_empty(which = c("rows", "cols"))
+```
