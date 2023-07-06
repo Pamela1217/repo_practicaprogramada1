@@ -27,3 +27,10 @@ library(lubridate) #manejo de fechas
 info_netflix <- read_csv2("https://raw.githubusercontent.com/isa229/programacion_analisis_datos_ii/main/netflix_info.csv")
 ```
 
+b. Ajuste los nombres de las columnas para que estén en español.
+
+```{r}
+ datos_netflix<-info_netflix |> 
+  rename (ID = show_id, Tipo = type, Título= title, Director = director, País = country, Fecha_agregada = date_added, Anyo_realización = release_year, Valoración = rating, Duración = duration, Incluido_en = listed_in)
+```
+
