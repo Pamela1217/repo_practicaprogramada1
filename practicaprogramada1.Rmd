@@ -1,0 +1,29 @@
+---
+title: "practicaprogramada1"
+author: "Sandra López Torres"
+date: "2023-07-08"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+a. Cree un archivo Rmarkdown para resolver esta práctica programada. En el chunk de setup cargue las librerías que considere necesarias para resolver la práctica. Los datos para trabajar puede cargarlos con
+la función read_csv2 de readr directamente de la siguiente dirección: “https://raw.githubusercontent.com/isa229/programacion_analisis_datos_ii/main/netflix_info.csv” (1pto)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(readr)
+library(gt)
+library(tidyr)# doma de datos
+library(janitor) #limpieza de datos
+library(lubridate) #manejo de fechas
+```
+
+```{r}
+info_netflix <- read_csv2("https://raw.githubusercontent.com/isa229/programacion_analisis_datos_ii/main/netflix_info.csv")
+```
+
