@@ -77,6 +77,7 @@ datos_netflix_homogenizados<- datos_netflix_sin_anyo_realización|>
   mutate(across(c(Tipo), function(x) ifelse(x == "Movi", "Movie", x))) |> 
   mutate(across(c(Tipo), function(x) ifelse(x == "TV SHOW", "TV Show", x))) |> 
   mutate(País = ifelse(País == "united states", "United States", País)) |>
+  mutate(País = ifelse(País == "United State", "United States", País)) |>
   mutate(País = ifelse(País== "india", "India", País)) |>
   mutate(País = ifelse(País == "pakistan", "Pakistan", País)) |> 
   mutate(País = ifelse(País == "canada", "Canada", País))
@@ -102,6 +103,11 @@ datos_netflix_fecha_tranformada <- datos_netflix_sin_NA |>
   mutate(Fecha_agregada = mdy(Fecha_agregada))
 ```
 
+
+
+l. Obtenga la lista de películas y shows de TV que se añadieron en marzo del año 2020. Cuántos fueron?
+(4pts)
+
 *Agregar columna Anyo
 ```{r}
 datos_netflix_con_anyo <- datos_netflix_fecha_tranformada|> 
@@ -110,7 +116,82 @@ datos_netflix_con_anyo <- datos_netflix_fecha_tranformada|>
 
 *Agregar columna Anyo
 ```{r}
-datos_netflix_con_mes <- datos_netflix_con_anyo|> 
+datos_netflix_Anyo_y_mes <- datos_netflix_con_anyo|> 
   mutate(Mes = month(Fecha_agregada))
 ```
 
+
+Una vez que haya terminado la limpieza anterior, responda las siguientes preguntas:
+i. Cuántas películas y shows de TV hay por país? (4pts)
+```{r}
+# Contar películas por país
+peliculas_por_pais <- table(datos_netflix_Anyo_y_mes$País[datos_netflix_Anyo_y_mes$Tipo == "Movie"])
+
+# Contar shows de TV por país
+shows_por_pais <- table(datos_netflix_Anyo_y_mes$País[datos_netflix_Anyo_y_mes$Tipo == "TV Show"])
+
+```
+  
+R/Películas por País
+Argentina 56, Australia 61, Austria 8, Bangladesh 3, Belgium 9, Brazil  60, Bulgaria  5, Cambodia 2, Cameroon 1, Canada 187, Chile 18, China 59, Colombia17, Croatia  1,  Czech Republic 5, Denmark 19, Egypt 109, Finland 3, France 148, Georgia 2, Germany 79, Ghana 4, Greece 1, Guatemala 1, Hong Kong 76, Hungary 5, Iceland 3, India 976, Indonesia 84, Iran 1, Ireland 22, Israel 12, Italy 47, Jamaica 1, Japan 87, Kenya 4, Kuwait 5, Lebanon 18,  Malaysia 16, Mauritius 1, Mexico 90, Mozambique 1, Namibia 1, Netherlands 23, New Zealand 15, Nigeria  96, Norway 12, Pakistan 71, Paraguay 1, Peru 6, Philippines 80, Poland 22, Portugal 4, Romania 10, Russia 5, Saudi Arabia  7, Serbia 3,  Singapore 10, Slovenia 1, Somalia 1, South Africa 35, South Korea 49, Soviet Union 1, Spain 129, Sweden 11, Switzerland 7, Syria 2, Taiwan 15, Thailand 42, Turkey United Arab Emirates 20, United Kingdom 387, United States 2395, Uruguay 8, Venezuela  2, Vietnam 7, West Germany 1, Zimbabwe 1, Sin información  257          
+            
+*Shows por País
+ Argentina 20, Australia 53, Austria 1, Belarus 1, Belgium 9, Brazil 28, Canada 84, Chile  4, China 41, Colombia 25, Croatia 1, Cyprus 1, Czech Republic 1, Denmark 11, Egypt 14, Finland 3, France 65, Germany 25, Hong Kong 3, Iceland 3, India 81, Indonesia 2, Ireland  6, Israel 10, Italy 19, Japan 172,Jordan 2, Kuwait 2, Lebanon 6, Luxembourgo 1, Malaysia 7, Mauritius 1, Mexico 48, Netherlands 5, New Zealand 2, Nigeria 9, Norway 9, Pakistan 350, Philippines 3, Poland 8, Puerto Rico 1, Russia 14, Saudi Arabia 5, Senegal 1, Singapore 18, South Africa 7, South Korea 165, Spain 53, Sweden 8, Switzerland 1, Taiwan 71, Thailand 24, Turkey 30, Ukraine United 2, Arab Emirates 1, United Kingdom 251, United States 845, Uruguay 1, Sin información 30
+             
+j. Cuáles son los 10 directores con mayor cantidad de películas (sin contar shows de TV) en Netflix?
+Ordénelos por orden descendente. (4pts)
+
+```{r}
+# Filtrar shows de TV
+directores_mas_peliculas <- datos_netflix_Anyo_y_mes[datos_netflix_Anyo_y_mes$Tipo == "Movie", ]
+
+# Contar la frecuencia de cada director
+directores_frecuencia <- table(directores_mas_peliculas$Director)
+
+# Ordenar los resultados en orden descendente
+directores_ordenados <- sort(directores_frecuencia, decreasing = TRUE)
+
+# Obtener los 10 directores con mayor frecuencia
+top_10_directores <- head(directores_ordenados, 11)
+```
+R/ Rajiv Chilaka Ra Campos 19
+Jan Suter 18
+Suhas Kadav 16
+Marcus Raboy 15
+Jay Karas 14
+Cathy Garcia-Molina 13
+Jay Chapman 12
+Martin Scorsese 12
+Youssef Chahine  12
+Steven Spielberg 11
+                      
+
+k. Cuáles son los 10 directores con mayor cantidad de shows de TV (sin contar películas) en Netflix?
+Ordénelos por orden descendente. (4pts)
+
+```{r}
+# Filtrar shows de TV
+directores_mas_TV_Show <- datos_netflix_Anyo_y_mes[datos_netflix_Anyo_y_mes$Tipo == "TV Show", ]
+
+# Contar la frecuencia de cada director
+directores_frecuenciaTV <- table(directores_mas_TV_Show$Director)
+
+# Ordenar los resultados en orden descendente
+directores_ordenadosTV <- sort(directores_frecuenciaTV, decreasing = TRUE)
+
+# Obtener los 10 directores con mayor frecuencia
+mejores_10_directores <- head(directores_ordenadosTV, 11)
+```
+
+R/Alastair Fothergill 14
+Mark Thornton 5
+Todd Kauffman 5  
+Stan Lathan 3
+Hsu Fu-chun 2    
+Iginio Straffi 2
+Ken Burns 2  
+Rob Seidenglanz 2
+Shin Won-ho 2 
+Maribel S-Maroto 1 
+                                                       
+                            
