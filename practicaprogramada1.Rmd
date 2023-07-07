@@ -88,5 +88,29 @@ g. Para todas las columnas de tipo carácter, en donde haya NA, coloque “Sin i
 datos_netflix_sin_NA <- datos_netflix_homogenizados |> 
   mutate_at(vars(ID, Tipo, Título, Director, País, Valoración, Duración), ~ifelse(is.na(.), "Sin información", .)) 
 ```
+*Otra opción
+```{r}
+datos_netflix_sin_NA <- datos_netflix_homogenizados |> 
+  mutate(across(everything(), function(x) ifelse(is.na(x), "Sin información", x))) # Coloca Sin Información si encuentra alguna observación es NA para todas las columnas
+```
 
+
+h. Añada a su conjunto de datos una nueva columna llamada anyo que indique el año en que el show o película fue añadido a Netflix. Añada también una columna llamada mes que indique el mes en que el show o película fue añadido a Netflix.
+*Transformar datos a una fecha
+```{r}
+datos_netflix_fecha_tranformada <- datos_netflix_sin_NA |> 
+  mutate(Fecha_agregada = mdy(Fecha_agregada))
+```
+
+*Agregar columna Anyo
+```{r}
+datos_netflix_con_anyo <- datos_netflix_fecha_tranformada|> 
+  mutate(Anyo = year(Fecha_agregada))
+```
+
+*Agregar columna Anyo
+```{r}
+datos_netflix_con_mes <- datos_netflix_con_anyo|> 
+  mutate(Mes = month(Fecha_agregada))
+```
 
